@@ -16,11 +16,27 @@ function onClientLoad() {
 function onYouTubeApiLoad() {
     // This API key is intended for use only in this lesson.
     // See https://goo.gl/PdPA1 to get a key for your own applications.
-    gapi.client.setApiKey('AIzaSyD_foUsKUlw6i2ErPz7F97fRLeIqrYVDgs');
-    
-    // Add code here to test out showResponse():
-    showResponse("Hooray!");
+    gapi.client.setApiKey('AIzaSyCR5In4DZaTP6IEZQ0r1JceuvluJRzQNLE');
+
+    search();
 }
 
-console.log("Hello World!");
+function search() {
+    // Use the JavaScript client library to create a search.list() API call.
+    var request = gapi.client.youtube.search.list({
+        part: 'snippet',
+        type: "video",
+        q: 'cats',
+        order: 'viewCount',
+        maxResults: 3
+    });
+    
+    // Send the request to the API server,
+    // and invoke onSearchRepsonse() with the response.
+    request.execute(onSearchResponse);
+}
 
+// Called automatically with the response of the YouTube API request.
+function onSearchResponse(response) {
+    showResponse(response);
+}
